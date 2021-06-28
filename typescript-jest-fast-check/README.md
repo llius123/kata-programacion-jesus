@@ -1,51 +1,70 @@
-# TypeScript Jest boilerplate
+# Kata Guilded Rose TS
 
-This boilerplate uses TypeScript and Jest as testing framework.
-Test files should are picked based on their name, here's a few examples that will get picked up by Jest:
+[Kata instructions](./INSTRUCTIONS.md)
 
-- `MyClass.test.ts`
-- `MyJavaScriptModule.test.js`
-- `MyComponent.test.tsx`
-- `SubFolder/MyClass.test.ts`
+## Requirements
 
-You can customize the regexp and jest configuration by editing the `package.json` file.
+---
 
-## Installing dependencies
+- make (optional)
+- docker
+- docker-compose
 
-```bash
-# Get Yarn
-npm install -g yarn
+or
 
-# Install dependencies
-yarn install
+- node
+- npm
+
+## How does it work
+
+---
+
+This project is built with docker-compose and make. You can run the commands directly with npm but **it is highly recommended to use make with docker-compose** because you make sure to run it with the same version. Make raises the container with docker-compose, executes the task and removes the container, in this way the local machine is clean once you execute the commands.
+
+## Example commands
+
+---
+
+- with make
+
+```sh
+make test
 ```
 
-## Running tests
+- with docker-compose
 
-```bash
-# Run tests once
-yarn test
-
-# Run tests with Jest-CLI custom arguments (https://jestjs.io/docs/en/cli.html)
-yarn test --clearCache --debug
-
-# Run tests for a specific file
-yarn test MyFile.test.ts
+```sh
+docker-compose up -d
+docker-compose exec kata_guilded_rose_ts npm run test
+dokcer-compose down
 ```
 
-A few other NPM scripts are provided for convenience, they all support custom arguments as described above.
+- with npm
 
+```sh
+npm run test
 ```
-# Run tests once with coverage
-# Coverage report available in ./coverage/index.html
-yarn test:cover
 
-# Run all tests in watch mode without coverage
-yarn test:watch
+## Make commands
 
-# Run the tests with watch mode only for files changed since the last Git commit
-yarn test:changed
+---
 
-# Run tests for CI environment (optimized for TravisCI)
-yarn test:ci
+```sh
+make install # install all project dependencies
+make install ARGS="date-fns" # install new dependencie
+make install ARGS="-D typescript" # install new dev dependencies
 ```
+
+```sh
+make eslint-check # run eslint check
+make eslint-fix # run eslint fix
+```
+
+```sh
+make test # run jest test
+make test-watch # run jest test with watch all files
+make test-coverage # run jest test coverage
+make test-all # run eslint fix and jest test coverage
+```
+
+> If you execute the command `make test-watch` make sure to exit with the `q` of the jest watch options and not with `Ctrl C`, because this would finish the `make` task without destroying the docker container.
